@@ -1,6 +1,7 @@
 import { vitePlugin as remix } from "@remix-run/dev";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
+import babel from "vite-plugin-babel";
 
 export default defineConfig({
   plugins: [
@@ -11,6 +12,15 @@ export default defineConfig({
         v3_throwAbortReason: true,
       },
     }),
+    ...(process.env.TEMPO ? [babel({
+      filter: /\.[jt]sx?$/,
+      babelConfig: {
+        presets: ["@babel/preset-typescript"], // if you use TypeScript
+        plugins: [
+          ["tempo-devtools/dist/babel-plugin", {}],
+        ],
+      },
+    })] : []),
     tsconfigPaths(),
   ],
 });

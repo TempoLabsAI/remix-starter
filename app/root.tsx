@@ -1,11 +1,15 @@
 import {
+  json,
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react";
 import type { LinksFunction } from "@remix-run/node";
+import { useEffect } from "react";
+import { TempoDevtools } from "tempo-devtools";
 
 import "./tailwind.css";
 
@@ -22,7 +26,23 @@ export const links: LinksFunction = () => [
   },
 ];
 
+export async function loader() {
+  return json({
+    ENV: {
+      TEMPO: process.env.TEMPO,
+    },
+  });
+}
+
 export function Layout({ children }: { children: React.ReactNode }) {
+  const data = useLoaderData<typeof loader>();
+
+  useEffect(() => {
+    if (data.ENV.TEMPO) {
+      TempoDevtools.init();
+    }
+  }, []);
+
   return (
     <html lang="en">
       <head>
