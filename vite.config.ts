@@ -4,6 +4,11 @@ import tsconfigPaths from "vite-tsconfig-paths";
 import babel from "vite-plugin-babel";
 
 export default defineConfig({
+  optimizeDeps: {
+    entries: [
+      "app/**/*",
+    ],
+  },
   plugins: [
     remix({
       future: {

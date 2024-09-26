@@ -35,14 +35,6 @@ export async function loader() {
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const data = useLoaderData<typeof loader>();
-
-  useEffect(() => {
-    if (data.ENV.TEMPO) {
-      TempoDevtools.init();
-    }
-  }, []);
-
   return (
     <html lang="en">
       <head>
@@ -61,5 +53,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  const data = useLoaderData<typeof loader>();
+
+  useEffect(() => {
+    if (data.ENV.TEMPO) {
+      TempoDevtools.init();
+    }
+  }, []);
+
   return <Outlet />;
 }
